@@ -9,7 +9,7 @@
 	} from '$lib/types/gitops.type';
 	import GitOpsSyncFormSheet from '$lib/components/dialogs/gitops-sync-dialog.svelte';
 	import GitOpsImportDialog from '$lib/components/dialogs/gitops-import-dialog.svelte';
-	import { handleApiResultWithCallbacks } from '$lib/utils/api.util';
+	import { extractApiErrorMessage, handleApiResultWithCallbacks } from '$lib/utils/api.util';
 	import { tryCatch } from '$lib/utils/try-catch';
 	import { m } from '$lib/paraglide/messages';
 	import { gitOpsSyncService } from '$lib/services/gitops-sync-service';
@@ -108,7 +108,10 @@
 			isSyncDialogOpen = false;
 		} catch (error) {
 			console.error('Error saving sync:', error);
-			toast.error(error instanceof Error ? error.message : m.common_save_failed());
+			const title = isEditMode
+				? m.common_update_failed({ resource: m.resource_sync() })
+				: m.common_create_failed({ resource: m.resource_sync() });
+			toast.error(title, { description: extractApiErrorMessage(error) });
 		} finally {
 			isLoading[loadingKey] = false;
 		}

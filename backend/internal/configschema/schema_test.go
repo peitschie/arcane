@@ -309,6 +309,8 @@ var expectedSettingOverrideKeys = []string{
 	"gitopsSyncInterval",
 	"httpClientTimeout",
 	"keyboardShortcutsEnabled",
+	"lifecycleEnabled",
+	"lifecycleMaxTimeoutSec",
 	"maxImageUploadSize",
 	"mobileNavigationMode",
 	"mobileNavigationShowLabels",

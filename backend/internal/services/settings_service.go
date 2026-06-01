@@ -165,6 +165,8 @@ func DefaultSettingsConfig() *models.Settings {
 		TrivyCpuLimit:                   models.SettingVariable{Value: "1"},
 		TrivyMemoryLimitMb:              models.SettingVariable{Value: "0"},
 		TrivyConcurrentScanContainers:   models.SettingVariable{Value: "1"},
+		LifecycleEnabled:                models.SettingVariable{Value: "false"},
+		LifecycleMaxTimeoutSec:          models.SettingVariable{Value: "300"},
 		// AuthOidcConfig DEPRECATED will be removed in a future release
 		AuthOidcConfig:             models.SettingVariable{Value: "{}"},
 		OidcEnabled:                models.SettingVariable{Value: "false"},

@@ -50,6 +50,7 @@ type Services struct {
 	Font              *services.FontService
 	Vulnerability     *services.VulnerabilityService
 	Dashboard         *services.DashboardService
+	Lifecycle         *services.LifecycleService
 }
 
 func initializeServices(ctx context.Context, db *database.DB, cfg *config.Config, httpClient *http.Client) (svcs *Services, dockerSrvice *services.DockerClientService, err error) {
@@ -84,7 +85,8 @@ func initializeServices(ctx context.Context, db *database.DB, cfg *config.Config
 	svcs.GitRepository = services.NewGitRepositoryService(db, cfg.GitWorkDir, svcs.Event, svcs.Settings)
 	svcs.Build = services.NewBuildService(db, svcs.Settings, svcs.Docker, svcs.ContainerRegistry, svcs.GitRepository, svcs.Event)
 	svcs.BuildWorkspace = services.NewBuildWorkspaceService(svcs.Settings)
-	svcs.Project = services.NewProjectService(db, svcs.Settings, svcs.Event, svcs.Image, svcs.Docker, svcs.Build, cfg)
+	svcs.Lifecycle = services.NewLifecycleService(db, svcs.Settings, svcs.Event, svcs.Docker)
+	svcs.Project = services.NewProjectService(db, svcs.Settings, svcs.Event, svcs.Image, svcs.Docker, svcs.Build, svcs.Lifecycle, cfg)
 	svcs.Container = services.NewContainerService(ctx, db, svcs.Event, svcs.Docker, svcs.Image, svcs.Settings, svcs.Project)
 	svcs.Dashboard = services.NewDashboardService(
 		db,
